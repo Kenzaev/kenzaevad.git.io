@@ -2,7 +2,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const productGallery = document.getElementById('product-gallery');
     const viewCartButton = document.getElementById('view-cart-button');
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    let products = JSON.parse(localStorage.getItem('products')) || [];
+
+    // Пример данных о продуктах
+    const products = [
+        { name: 'Товар 1', price: '100 руб.', image: 'image1.jpg', video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+        { name: 'Товар 2', price: '200 руб.', image: 'image2.jpg', video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' }
+    ];
 
     // Функция для отображения продуктов
     function displayProducts(products) {
