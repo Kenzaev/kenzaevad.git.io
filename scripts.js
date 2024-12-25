@@ -3,7 +3,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const whatsappButton = document.getElementById('whatsapp-button');
     const youtubeButton = document.getElementById('youtube-button');
     const addToCartButton = document.getElementById('add-to-cart-button');
+    const viewCartButton = document.getElementById('view-cart-button');
     let selectedProduct = null;
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
     // Пример данных о продуктах
     const products = [
@@ -52,8 +54,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Обработчик для кнопки "В корзину"
     addToCartButton.addEventListener('click', () => {
         if (selectedProduct) {
+            cart.push(selectedProduct);
+            localStorage.setItem('cart', JSON.stringify(cart));
             alert(`Товар ${selectedProduct.name} добавлен в корзину`);
-            // Здесь можно добавить логику для добавления товара в корзину
+        }
+    });
+
+    // Обработчик для кнопки "Просмотреть корзину"
+    viewCartButton.addEventListener('click', () => {
+        if (cart.length > 0) {
+            const cartItems = cart.map(item => item.name).join(', ');
+            window.open(`https://wa.me/YOUR_PHONE_NUMBER?text=Я хочу заказать: ${cartItems}`);
+        } else {
+            alert('Ваша корзина пуста');
         }
     });
 
