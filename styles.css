@@ -19,17 +19,17 @@ main {
 }
 
 .gallery {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1em;
+    width: 100%;
+    max-width: 1200px;
 }
 
 .product-card {
     border: 1px solid #ddd;
     padding: 1em;
     text-align: center;
-    width: 200px;
     transition: transform 0.3s;
 }
 
