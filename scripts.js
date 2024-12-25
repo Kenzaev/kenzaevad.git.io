@@ -6,7 +6,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Пример данных о продуктах
     const products = [
         { name: 'Товар 1', price: '100 руб.', image: 'image1.jpg', video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-        { name: 'Товар 2', price: '200 руб.', image: 'image2.jpg', video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' }
+        { name: 'Товар 2', price: '200 руб.', image: 'image2.jpg', video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+        { name: 'Товар 3', price: '150 руб.', image: 'image3.jpg', video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+        { name: 'Товар 4', price: '250 руб.', image: 'image4.jpg', video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' }
     ];
 
     // Функция для отображения продуктов
