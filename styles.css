@@ -19,23 +19,17 @@ main {
 }
 
 .gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 1em;
-    width: 100%;
-    max-width: 1200px;
-}
-
-@media (max-width: 600px) {
-    .gallery {
-        grid-template-columns: 1fr;
-    }
 }
 
 .product-card {
     border: 1px solid #ddd;
     padding: 1em;
     text-align: center;
+    width: 200px;
     transition: transform 0.3s;
 }
 
@@ -77,4 +71,5 @@ main {
 .buttons button:hover {
     background-color: #45a049;
 }
+
 
