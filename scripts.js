@@ -2,20 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const productGallery = document.getElementById('product-gallery');
     const viewCartButton = document.getElementById('view-cart-button');
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    // Функция для загрузки продуктов с сервера
-    async function loadProducts() {
-        try {
-            const response = await fetch('/api/products');
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const products = await response.json();
-            displayProducts(products);
-        } catch (error) {
-            console.error('Failed to load products:', error);
-        }
-    }
+    let products = JSON.parse(localStorage.getItem('products')) || [];
 
     // Функция для отображения продуктов
     function displayProducts(products) {
@@ -71,7 +58,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Загрузка продуктов при загрузке страницы
-    loadProducts();
+    // Отображение продуктов при загрузке страницы
+    displayProducts(products);
 });
+
 
