@@ -3,14 +3,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const viewCartButton = document.getElementById('view-cart-button');
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    // Функция для загрузки продуктов с сервера
+  
     async function loadProducts() {
-        const response = await fetch('/api/products');
-        const products = await response.json();
-        displayProducts(products);
+        try {
+            const response = await fetch('/api/products');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const products = await response.json();
+            displayProducts(products);
+        } catch (error) {
+            console.error('Failed to load products:', error);
+        }
     }
 
-    // Функция для отображения продуктов
+
     function displayProducts(products) {
         productGallery.innerHTML = '';
         products.forEach(product => {
@@ -42,19 +49,18 @@ document.addEventListener('DOMContentLoaded', function() {
         window.open(`https://wa.me/YOUR_PHONE_NUMBER?text=Я хочу заказать ${product.name}`);
     }
 
-    // Функция для добавления товара в корзину
+
     function addToCart(product) {
         cart.push(product);
         localStorage.setItem('cart', JSON.stringify(cart));
         alert(`Товар ${product.name} добавлен в корзину`);
     }
 
-    // Функция для просмотра видео обзора товара
     function viewProduct(product) {
         window.open(product.video);
     }
 
-    // Обработчик для кнопки "Просмотреть корзину"
+
     viewCartButton.addEventListener('click', () => {
         if (cart.length > 0) {
             const cartItems = cart.map(item => item.name).join(', ');
@@ -64,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Загрузка продуктов при загрузке страницы
+
     loadProducts();
 });
 
