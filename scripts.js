@@ -1,68 +1,73 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const productGallery = document.getElementById('product-gallery');
-    const viewCartButton = document.getElementById('view-cart-button');
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-    // Пример данных о продуктах
-    const products = [
-        { name: 'Товар 1', price: '100 руб.', image: 'image1.jpg', video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-        { name: 'Товар 2', price: '200 руб.', image: 'image2.jpg', video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' }
-    ];
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 1em;
+    text-align: center;
+}
 
-    // Функция для отображения продуктов
-    function displayProducts(products) {
-        productGallery.innerHTML = '';
-        products.forEach(product => {
-            const productCard = document.createElement('div');
-            productCard.className = 'product-card';
-            productCard.innerHTML = `
-                <img src="${product.image}" alt="${product.name}">
-                <h2>${product.name}</h2>
-                <p>${product.price}</p>
-                <button class="order-now-button">Заказать сейчас</button>
-                <button class="add-to-cart-button">В корзину</button>
-                <button class="view-button">Обзор</button>
-            `;
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
+}
 
-            const orderNowButton = productCard.querySelector('.order-now-button');
-            const addToCartButton = productCard.querySelector('.add-to-cart-button');
-            const viewButton = productCard.querySelector('.view-button');
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
+}
 
-            orderNowButton.addEventListener('click', () => orderNow(product));
-            addToCartButton.addEventListener('click', () => addToCart(product));
-            viewButton.addEventListener('click', () => viewProduct(product));
+.product-card {
+    border: 1px solid #ddd;
+    padding: 1em;
+    text-align: center;
+    width: 200px;
+    transition: transform 0.3s;
+}
 
-            productGallery.appendChild(productCard);
-        });
-    }
+.product-card:hover {
+    transform: scale(1.05);
+}
 
-    // Функция для заказа товара сейчас
-    function orderNow(product) {
-        window.open(`https://wa.me/YOUR_PHONE_NUMBER?text=Я хочу заказать ${product.name}`);
-    }
+.product-card img {
+    max-width: 100%;
+    height: auto;
+}
 
-    // Функция для добавления товара в корзину
-    function addToCart(product) {
-        cart.push(product);
-        localStorage.setItem('cart', JSON.stringify(cart));
-        alert(`Товар ${product.name} добавлен в корзину`);
-    }
+.product-card button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 0.5em;
+    margin: 0.5em;
+    cursor: pointer;
+}
 
-    // Функция для просмотра видео обзора товара
-    function viewProduct(product) {
-        window.open(product.video);
-    }
+.product-card button:hover {
+    background-color: #45a049;
+}
 
-    // Обработчик для кнопки "Просмотреть корзину"
-    viewCartButton.addEventListener('click', () => {
-        if (cart.length > 0) {
-            const cartItems = cart.map(item => item.name).join(', ');
-            window.open(`https://wa.me/YOUR_PHONE_NUMBER?text=Я хочу заказать: ${cartItems}`);
-        } else {
-            alert('Ваша корзина пуста');
-        }
-    });
+.buttons {
+    margin-top: 1em;
+}
 
-    // Отображение продуктов при загрузке страницы
-    displayProducts(products);
-});
+.buttons button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 0.5em;
+    margin: 0.5em;
+    cursor: pointer;
+}
+
+.buttons button:hover {
+    background-color: #45a049;
+}
