@@ -3,13 +3,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const viewCartButton = document.getElementById('view-cart-button');
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    // Пример данных о продуктах
-    const products = [
-        { name: 'Товар 1', price: '100 руб.', image: 'image1.jpg', video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-        { name: 'Товар 2', price: '200 руб.', image: 'image2.jpg', video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-        { name: 'Товар 3', price: '150 руб.', image: 'image3.jpg', video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-        { name: 'Товар 4', price: '250 руб.', image: 'image4.jpg', video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' }
-    ];
+    // Функция для загрузки продуктов с сервера
+    async function loadProducts() {
+        const response = await fetch('/api/products');
+        const products = await response.json();
+        displayProducts(products);
+    }
 
     // Функция для отображения продуктов
     function displayProducts(products) {
@@ -65,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Отображение продуктов при загрузке страницы
-    displayProducts(products);
+    // Загрузка продуктов при загрузке страницы
+    loadProducts();
 });
 
