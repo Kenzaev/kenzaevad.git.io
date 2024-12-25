@@ -1,73 +1,70 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
+document.addEventListener('DOMContentLoaded', function() {
+    const productGallery = document.getElementById('product-gallery');
+    const viewCartButton = document.getElementById('view-cart-button');
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-header {
-    background-color: #4CAF50;
-    color: white;
-    padding: 1em;
-    text-align: center;
-}
+    // Пример данных о продуктах
+    const products = [
+        { name: 'Товар 1', price: '100 руб.', image: 'image1.jpg', video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+        { name: 'Товар 2', price: '200 руб.', image: 'image2.jpg', video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+        { name: 'Товар 3', price: '150 руб.', image: 'image3.jpg', video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+        { name: 'Товар 4', price: '250 руб.', image: 'image4.jpg', video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' }
+    ];
 
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1em;
-}
+    // Функция для отображения продуктов
+    function displayProducts(products) {
+        productGallery.innerHTML = '';
+        products.forEach(product => {
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card';
+            productCard.innerHTML = `
+                <img src="${product.image}" alt="${product.name}">
+                <h2>${product.name}</h2>
+                <p>${product.price}</p>
+                <button class="order-now-button">Заказать сейчас</button>
+                <button class="add-to-cart-button">В корзину</button>
+                <button class="view-button">Обзор</button>
+            `;
 
-.gallery {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1em;
-}
+            const orderNowButton = productCard.querySelector('.order-now-button');
+            const addToCartButton = productCard.querySelector('.add-to-cart-button');
+            const viewButton = productCard.querySelector('.view-button');
 
-.product-card {
-    border: 1px solid #ddd;
-    padding: 1em;
-    text-align: center;
-    width: 200px;
-    transition: transform 0.3s;
-}
+            orderNowButton.addEventListener('click', () => orderNow(product));
+            addToCartButton.addEventListener('click', () => addToCart(product));
+            viewButton.addEventListener('click', () => viewProduct(product));
 
-.product-card:hover {
-    transform: scale(1.05);
-}
+            productGallery.appendChild(productCard);
+        });
+    }
 
-.product-card img {
-    max-width: 100%;
-    height: auto;
-}
+    // Функция для заказа товара сейчас
+    function orderNow(product) {
+        window.open(`https://wa.me/YOUR_PHONE_NUMBER?text=Я хочу заказать ${product.name}`);
+    }
 
-.product-card button {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 0.5em;
-    margin: 0.5em;
-    cursor: pointer;
-}
+    // Функция для добавления товара в корзину
+    function addToCart(product) {
+        cart.push(product);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        alert(`Товар ${product.name} добавлен в корзину`);
+    }
 
-.product-card button:hover {
-    background-color: #45a049;
-}
+    // Функция для просмотра видео обзора товара
+    function viewProduct(product) {
+        window.open(product.video);
+    }
 
-.buttons {
-    margin-top: 1em;
-}
+    // Обработчик для кнопки "Просмотреть корзину"
+    viewCartButton.addEventListener('click', () => {
+        if (cart.length > 0) {
+            const cartItems = cart.map(item => item.name).join(', ');
+            window.open(`https://wa.me/YOUR_PHONE_NUMBER?text=Я хочу заказать: ${cartItems}`);
+        } else {
+            alert('Ваша корзина пуста');
+        }
+    });
 
-.buttons button {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 0.5em;
-    margin: 0.5em;
-    cursor: pointer;
-}
-
-.buttons button:hover {
-    background-color: #45a049;
-}
+    // Отображение продуктов при загрузке страницы
+    displayProducts(products);
+});
