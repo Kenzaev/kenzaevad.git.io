@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Основные стили остаются без изменений */
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
@@ -17,7 +16,77 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
-        /* Добавление стилей для кнопки "Сердечко" */
+        header {
+            background-color: #333;
+            color: #ffffff;
+            padding: 1em;
+            text-align: center;
+            position: relative;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .menu-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #333;
+            border: 1px solid #ccc;
+            color: #ffffff;
+            padding: 0.5em;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .menu-panel {
+            display: none;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: #333;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        .menu-panel button {
+            background-color: #333;
+            border: 1px solid #ccc;
+            color: #ffffff;
+            padding: 0.5em 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1em;
+        }
+
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .product-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1.5em;
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 20px;
+        }
+
         .heart-button {
             cursor: pointer;
             color: #ccc;
@@ -26,72 +95,54 @@
         }
 
         .heart-button.liked {
-            color: red; /* Цвет сердечка при добавлении в избранное */
+            color: red;
         }
 
-        /* Остальные стили остаются без изменений */
-        /* ... */
+        .chat-container {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            max-width: 400px;
+            height: 400px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        .chat-header {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 10px;
+            text-align: center;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        .chat-messages {
+            padding: 10px;
+            height: 300px;
+            overflow-y: auto;
+        }
+
+        .chat-message {
+            background-color: #f1f1f1;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-top: 1px solid #ccc;
+            border-radius: 0 0 8px 8px;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>Добро пожаловать в интернет-магазин Shaxa</h1>
-        <input type="text" id="search-bar" placeholder="Поиск..." oninput="filterProducts()" style="padding: 0.5em; width: 60%; max-width: 200px; border-radius: 5px; border: 1px solid #ccc;">
-        <button class="menu-button" onclick="toggleMenu()">Меню</button>
-        <div class="menu-panel" id="menu-panel">
-            <button class="btn" onclick="showMain()">Главная</button>
-            <button class="btn" onclick="showRecommended()">Рекомендуемые товары</button>
-            <button class="btn" onclick="showCartSection()">Корзина</button>
-            <button class="btn" onclick="openChat()">Поддержка</button> <!-- Кнопка поддержки -->
-        </div>
-        <!-- Социальные сети и кнопка переключения темы -->
-        <!-- ... -->
-    </header>
-    <main>
-        <section class="gallery" id="product-gallery">
-            <!-- Продукты будут добавлены здесь через JavaScript -->
-        </section>
-        <!-- Остальные секции остаются без изменений -->
-        <!-- ... -->
-    </main>
-    <!-- Чат поддержки -->
-    <div id="chatContainer" class="chat-container">
-        <div class="chat-header">
-            <span class="close" onclick="closeChat()">&times;</span>
-            <h3>Чат</h3>
-        </div>
-        <div class="chat-messages" id="chatMessages"></div>
-        <input type="text" id="chatInput" class="chat-input" placeholder="Напишите сообщение..." onkeypress="sendMessage(event)">
-    </div>
-    <script>
-        let products = [];
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        let chatMessages = [];
-
-        // Функция для загрузки товаров
-        async function loadProducts() {
-            try {
-                const response = await fetch('products.json');
-                if (!response.ok) {
-                    throw new Error('Ошибка при загрузке товаров');
-                }
-                products = await response.json();
-                displayProducts();
-            } catch (error) {
-                console.error('Ошибка при загрузке товаров:', error);
-            }
-        }
-
-        // Функция для отображения всех товаров
-        function displayProducts(filteredProducts = products) {
-            const productsDiv = document.getElementById("product-gallery");
-            productsDiv.innerHTML = '';
-            filteredProducts.forEach((product, index) => {
-                const productDiv = document.createElement("div");
-                productDiv.className = "product-card";
-                productDiv.innerHTML = `
-                    <h2>${product.name}</h2>
-                    <img src="${product.images[0]}" alt="${product.name}" onclick="openModal(${index})">
-                    <p>Цена: ${product.price}₽</p>
-                    <button class="btn" onclick="orderNow('${product.name}')">Заказать сейчас</button>
-                    <button class="btn" onclick="addToCart('${product.name}', ${product.price})">В корзину</
+        <h1>Добро пожаловать в интернет-магаз
